@@ -1,42 +1,5 @@
-//----------------------------------------------------------------------------//
-// Image Data                                                                 //
-//----------------------------------------------------------------------------//
-
 $(function()
 {
-
-	const addToObject = function (obj, key, value, index) {
-
-		// Create a temp object and index variable
-		var temp = {};
-		var i = 0;
-	
-		// Loop through the original object
-		for (var prop in obj) {
-			if (obj.hasOwnProperty(prop)) {
-	
-				// If the indexes match, add the new item
-				if (i === index && key && value) {
-					temp[key] = value;
-				}
-	
-				// Add the current item in the loop to the temp obj
-				temp[prop] = obj[prop];
-	
-				// Increase the count
-				i++;
-	
-			}
-		}
-	
-		// If no index, add to the end
-		if (!index && key && value) {
-			temp[key] = value;
-		}
-	
-		return temp;
-	
-	};
 
 	const officialPhotos = [
 		{
@@ -1831,7 +1794,8 @@ $(function()
 		if (val.type == 'video') {
 			$('#famfnds-viewer').append(
 				'<div class="box width-4 ' + val.orientation + '">\
-					<video type="video/mp4" preload="poster" src="assets/img/famfnds/' + val.name + '.mov" />\
+					<video type="video/mp4" preload="poster" src="assets/img/famfnds/' + val.name + '.mov"></video>\
+					<svg viewBox="0 0 40 35"><path d="m0 0 40 17.5-40 17.5z" fill="#dfd3c2"></path></svg>\
 				</div>'
 			);
 		} else {
@@ -1853,6 +1817,26 @@ $(function()
 				</picture>\
 			</div>'
 		);
+	});
+
+	const modal = $('.modal');
+
+	$('.viewer picture').on('click',function() {
+		const imgSrc = $(this).find('img').attr('src');
+		$('.modal img').attr('src',imgSrc);
+		modal.addClass('show image');
+	});
+
+	$('.viewer video').on('click',function() {
+		const videoSrc = $(this).attr('src');
+		$('.modal video').attr('src',videoSrc);
+		modal.addClass('show video');
+	});
+
+	$('.modal-close').on('click',function() {
+		$('.modal img').attr('src','');
+		$('.modal video').attr('src','');
+		modal.removeClass('show image video');
 	});
 
 });
